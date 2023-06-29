@@ -1,8 +1,20 @@
 import React from 'react'
 import { NavLink, Link } from 'react-router-dom'
 import NavbarImg from '../../assets/shopping-bag.png'
+import { useAuth } from '../../context/auth'
+import { toast } from 'react-toastify'
 
 const Header = () => {
+    const [auth, setAuth] = useAuth()
+    const handleLogout = () => {
+        setAuth({
+            ...setAuth,
+            user: null,
+            token: ''
+        })
+        localStorage.removeItem('auth')
+        toast.success("Logged out Successfully");
+    }
     return (
         <>
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -22,21 +34,30 @@ const Header = () => {
                             <li className="nav-item">
                                 <NavLink to="/category" className="nav-link">Category</NavLink >
                             </li>
-                            <li className="nav-item">
-                                <NavLink to="/signup" className="nav-link">Signup</NavLink >
-                            </li>
-                            <li className="nav-item">
-                                <NavLink to="/login" className="nav-link">Login</NavLink >
-                            </li>
-                            <li className="nav-item">
-                                <NavLink to="/cart" className="nav-link">
-                                    Cart
-                                    <span className="cart-badge position-absolute translate-middle badge rounded-pill bg-danger">
-                                        0
-                                        <span className="visually-hidden">unread messages</span>
-                                    </span>
-                                </NavLink >
-                            </li>
+                            {
+                                !auth.user ? (<>
+                                    <li className="nav-item">
+                                        <NavLink to="/signup" className="nav-link">Signup</NavLink >
+                                    </li>
+                                    <li className="nav-item">
+                                        <NavLink to="/login" className="nav-link">Login</NavLink >
+                                    </li>
+                                </>) : (<>
+                                    <li className="nav-item">
+                                        <NavLink to="/cart" className="nav-link">
+                                            Cart(0)
+                                            {/* <span className="cart-badge-left position-absolute translate-middle badge rounded-pill bg-danger">
+                                                0
+                                                <span className="visually-hidden">unread messages</span>
+                                            </span> */}
+                                        </NavLink >
+                                    </li>
+                                    <li className="nav-item">
+                                        <NavLink onClick={handleLogout} to="/login" className="nav-link">Logout</NavLink >
+                                    </li>
+                                </>)
+                            }
+
                         </ul>
                     </div>
                 </div>

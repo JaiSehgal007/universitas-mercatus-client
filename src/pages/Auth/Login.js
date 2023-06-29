@@ -5,11 +5,13 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import {BiSolidLockAlt} from 'react-icons/bi';
 import { MdEmail } from 'react-icons/md'
+import { useAuth } from '../../context/auth';
 
 
 const Login = () => {
 
     const [credentials, setCredentials] = useState({email: "", password: ""});
+    const [auth,setAuth]=useAuth()
     const navigate = useNavigate();
     const onChangeVal = (e) => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value })
@@ -25,6 +27,13 @@ const Login = () => {
 
             if (res.data.success) {
                 toast.success(res.data.message);
+                setAuth({
+                    // this way we are spreading auth, so that all the previous values are retained and only the selected values are updated
+                    ...auth,
+                    user:res.data.user,
+                    token:res.data.token,
+                });
+                localStorage.setItem('auth',JSON.stringify(res.data));
                 navigate("/")
             } else {
                 toast.error(res.data.message);

@@ -43,6 +43,15 @@
   --bs-badge-font-size: 0.70em !important;
 }
 
+.cart-badge-left{
+  left: 92%!important;
+  top: 13px;
+  --bs-badge-padding-x: 0.40em !important;
+  --bs-badge-padding-y: 0.20em !important;
+  --bs-badge-font-size: 0.70em !important;
+}
+
+
 /* footer css */
 
 .footer-row{
