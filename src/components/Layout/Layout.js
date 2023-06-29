@@ -3,7 +3,9 @@ import Header from './Header'
 import Footer from './Footer'
 import { Helmet } from 'react-helmet'
 
-const Layout = ({ children, title, description,keywords,author }) => {
+import 'react-toastify/dist/ReactToastify.css';
+
+const Layout = ({ children, title, description, keywords, author }) => {
     return (
         <div>
             {/* for SEO Optimization */}
@@ -24,11 +26,11 @@ const Layout = ({ children, title, description,keywords,author }) => {
     )
 }
 
-Layout.defaultProps={
-    title:'Universitas Mercatus - shop now',
-    description:'market plcae for you college',
-    keywords:'mern,react,node,express,mongodb,firebase,college,market',
-    author:'Jai Sehgal'
+Layout.defaultProps = {
+    title: 'Universitas Mercatus - shop now',
+    description: 'market plcae for you college',
+    keywords: 'mern,react,node,express,mongodb,firebase,college,market',
+    author: 'Jai Sehgal'
 }
 
 export default Layout
