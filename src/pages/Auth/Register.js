@@ -7,6 +7,7 @@ import { BiSolidUser, BiSolidLockAlt} from 'react-icons/bi';
 import { MdEmail } from 'react-icons/md'
 import { BsFillTelephoneFill } from 'react-icons/bs';
 import { FaAddressCard } from 'react-icons/fa';
+import {RiQuestionnaireFill}from 'react-icons/ri'
 
 
 // installing axios to pass the data to the servers as we cannot communicate directly yo yhe server
@@ -16,7 +17,7 @@ import { FaAddressCard } from 'react-icons/fa';
 
 const Register = () => {
 
-    const [credentials, setCredentials] = useState({ name: "", email: "", password: "", address: "", phone: "" });
+    const [credentials, setCredentials] = useState({ name: "", email: "", password: "", address: "", phone: "" ,answer:""});
     const navigate = useNavigate();
     const onChangeVal = (e) => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value })
@@ -68,6 +69,11 @@ const Register = () => {
                                 <FaAddressCard className="register-form-icons" />
                                 {/* <label htmlFor="address" className="form-label">Adress</label> */}
                                 <input required name='address' onChange={onChangeVal} value={credentials.address} placeholder='Enter Your Address' type="text" className="form-control" id="address" />
+                            </div>
+                            <div className="mb-3 d-flex">
+                                <RiQuestionnaireFill className="register-form-icons" />
+                                {/* <label htmlFor="address" className="form-label">Adress</label> */}
+                                <input required name='answer' onChange={onChangeVal} value={credentials.answer} placeholder="Enter your Teacher's Name" type="text" className="form-control" id="answer" />
                             </div>
                             <div className="mb-3 d-flex">
                                 <BiSolidLockAlt className="register-form-icons" />

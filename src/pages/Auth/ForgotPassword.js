@@ -2,18 +2,16 @@ import React, { useState } from 'react'
 import Layout from '../../components/Layout/Layout'
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import { useNavigate,useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {BiSolidLockAlt} from 'react-icons/bi';
 import { MdEmail } from 'react-icons/md'
-import { useAuth } from '../../context/auth';
+import {RiQuestionnaireFill}from 'react-icons/ri'
 
 
-const Login = () => {
+const ForgotPassword = () => {
 
-    const [credentials, setCredentials] = useState({email: "", password: ""});
-    const [auth,setAuth]=useAuth()
-    const navigate = useNavigate();
-    const location = useLocation();
+    const [credentials, setCredentials] = useState({email: "", newPassword: "",answer:""});
+    const navigate = useNavigate(); 
     const onChangeVal = (e) => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value })
     }
@@ -21,21 +19,17 @@ const Login = () => {
     const onSubmitForm = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post(
-                `${process.env.REACT_APP_API}/api/v1/auth/login`,
-                credentials
+            const {email,newPassword,answer}=credentials;
+            const res = await axios.post(`${process.env.REACT_APP_API}/api/v1/auth/forgot-password`,{
+                    email,
+                    newPassword,
+                    answer
+                }
             );
 
             if (res.data.success) {
                 toast.success(res.data.message);
-                setAuth({
-                    // this way we are spreading auth, so that all the previous values are retained and only the selected values are updated
-                    ...auth,
-                    user:res.data.user,
-                    token:res.data.token,
-                });
-                localStorage.setItem('auth',JSON.stringify(res.data));
-                navigate(location.state || "/")
+                navigate("/login")
             } else {
                 toast.error(res.data.message);
             }
@@ -46,10 +40,10 @@ const Login = () => {
     };
 
     return (
-        <Layout title="Login - Universitas Mercatus">
+        <Layout title="Forgot Password - Universitas Mercatus">
             <div className="register">
                 <div className="register-form">
-                    <h1 style={{ fontWeight: 'bold', marginBottom: '20px' }}>Login to your Account</h1>
+                    <h1 style={{ fontWeight: 'bold', marginBottom: '20px' }}>Reset Password</h1>
                     <form onSubmit={onSubmitForm}>
                         <div>
                             <div className="mb-3 d-flex">
@@ -58,16 +52,18 @@ const Login = () => {
                                 <input required name='email' onChange={onChangeVal} value={credentials.email} placeholder='Enter Your Email Id' type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
                             </div>
                             <div className="mb-3 d-flex">
+                                <RiQuestionnaireFill className="register-form-icons" />
+                                {/* <label htmlFor="exampleInputEmail1" className="form-label">Email address</label> */}
+                                <input required name='answer' onChange={onChangeVal} value={credentials.answer} placeholder="Enter your Teacher's Name" type="text" className="form-control" id="answer" aria-describedby="emailHelp" />
+                            </div>
+                            <div className="mb-3 d-flex">
                                 <BiSolidLockAlt className="register-form-icons" />
                                 {/* <label htmlFor="exampleInputPassword1" className="form-label">Password</label> */}
-                                <input required name='password' onChange={onChangeVal} value={credentials.password} placeholder='Enter your password' type="password" className="form-control" id="exampleInputPassword1" />
+                                <input required name='newPassword' onChange={onChangeVal} value={credentials.newPassword} placeholder='Enter your new password' type="password" className="form-control" id="exampleInputPassword1" />
                             </div>
                             <div className="d-flex">
                             <button style={{marginTop:'20px'}} type="submit" className=" d-flex btn btn-primary">
-                                Login
-                            </button>
-                            <button style={{marginTop:'20px'}} type="button" onClick={()=>{navigate('/forgot-password')}}  className="mx-2 d-flex btn btn-primary">
-                                Forgot Password
+                                Reset Password
                             </button>
                             </div>
                         </div>
@@ -78,5 +74,5 @@ const Login = () => {
     )
 }
 
-export default Login
+export default ForgotPassword
 

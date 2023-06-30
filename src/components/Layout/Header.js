@@ -43,17 +43,25 @@ const Header = () => {
                                         <NavLink to="/login" className="nav-link">Login</NavLink >
                                     </li>
                                 </>) : (<>
+
+                                    <li className="nav-item dropdown">
+                                        <Link className="nav-link dropdown-toggle" role='button' href="/" data-bs-toggle="dropdown" aria-expanded="false">
+                                            {auth?.user?.name}
+                                        </Link>
+                                        <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                            <NavLink to="/dashboard" className="dropdown-item">Dashboard</NavLink>
+                                            <NavLink onClick={handleLogout} to="/login" className="dropdown-item">Logout</NavLink >
+                                        </div>
+                                    </li>
                                     <li className="nav-item">
                                         <NavLink to="/cart" className="nav-link">
-                                            Cart(0)
-                                            {/* <span className="cart-badge-left position-absolute translate-middle badge rounded-pill bg-danger">
+                                            Cart
+                                            
+                                        </NavLink >
+                                        {/* <span className="cart-badge translate-middle badge rounded-pill bg-danger">
                                                 0
                                                 <span className="visually-hidden">unread messages</span>
                                             </span> */}
-                                        </NavLink >
-                                    </li>
-                                    <li className="nav-item">
-                                        <NavLink onClick={handleLogout} to="/login" className="nav-link">Logout</NavLink >
                                     </li>
                                 </>)
                             }

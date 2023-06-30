@@ -9,6 +9,7 @@ import { ToastContainer } from 'react-toastify';
 import Login from "./pages/Auth/Login";
 import Dashboard from "./pages/user/Dashboard";
 import PrivateRoute from "./components/routes/private";
+import ForgotPassword from "./pages/Auth/ForgotPassword";
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Route path="" element={<Dashboard />} />
         </Route>
         <Route path="/about" element={<About />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Register />} />
         <Route path="/contact" element={<Contact />} />
