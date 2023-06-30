@@ -7,6 +7,8 @@ import Pagenotfound from "./pages/Pagenotfound";
 import Register from "./pages/Auth/Register";
 import { ToastContainer } from 'react-toastify';
 import Login from "./pages/Auth/Login";
+import Dashboard from "./pages/user/Dashboard";
+import PrivateRoute from "./components/routes/private";
 
 
 function App() {
@@ -14,6 +16,11 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        {/*  here this means that, we are creating nested routes inside Private route
+        we can also create multiple routes in this, now here first the private route will be checked then the nested route will be executed*/}
+        <Route path="/dashboard" element={<PrivateRoute />}>
+          <Route path="" element={<Dashboard />} />
+        </Route>
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Register />} />

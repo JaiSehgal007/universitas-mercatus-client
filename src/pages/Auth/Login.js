@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Layout from '../../components/Layout/Layout'
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useLocation } from 'react-router-dom';
 import {BiSolidLockAlt} from 'react-icons/bi';
 import { MdEmail } from 'react-icons/md'
 import { useAuth } from '../../context/auth';
@@ -13,6 +13,7 @@ const Login = () => {
     const [credentials, setCredentials] = useState({email: "", password: ""});
     const [auth,setAuth]=useAuth()
     const navigate = useNavigate();
+    const location = useLocation();
     const onChangeVal = (e) => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value })
     }
@@ -34,7 +35,7 @@ const Login = () => {
                     token:res.data.token,
                 });
                 localStorage.setItem('auth',JSON.stringify(res.data));
-                navigate("/")
+                navigate(location.state || "/")
             } else {
                 toast.error(res.data.message);
             }
