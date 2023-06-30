@@ -49,7 +49,7 @@ const Header = () => {
                                             {auth?.user?.name}
                                         </Link>
                                         <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                            <NavLink to="/dashboard" className="dropdown-item">Dashboard</NavLink>
+                                            <NavLink to={`/dashboard/${auth?.user?.role===1?'admin':'user'}`} className="dropdown-item">Dashboard</NavLink>
                                             <NavLink onClick={handleLogout} to="/login" className="dropdown-item">Logout</NavLink >
                                         </div>
                                     </li>
