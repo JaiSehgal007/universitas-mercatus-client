@@ -223,3 +223,8 @@
   height: 25px;
   width: 25px;
 }
+
+.product-link{
+  text-decoration: none;
+  color: #000000 !important;
+}
