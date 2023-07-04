@@ -4,6 +4,9 @@ import axios from 'axios';
 import { Checkbox, Radio } from 'antd'
 import { Prices } from '../components/Prices';
 import { useNavigate } from 'react-router-dom';
+import { useCart } from '../context/cart';
+import { toast } from 'react-toastify';
+import '../styles/Homepage.css'
 
 const HomePage = () => {
     const [products, setProducts] = useState([]);
@@ -12,8 +15,9 @@ const HomePage = () => {
     const [radio, setRadio] = useState([])
     const [total, setTotal] = useState(0);
     const [page, setPage] = useState(1);
-    const [loading,setLoading]=useState(false);
-    const navigate=useNavigate();
+    const [cart, setCart] = useCart();
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
 
 
@@ -48,7 +52,7 @@ const HomePage = () => {
     }
     useEffect(() => {
         if (!checked.length & !radio.length) getAllProducts();
-         // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [checked.length, radio.length])
 
     useEffect(() => {
@@ -68,23 +72,23 @@ const HomePage = () => {
         }
     }
 
-    const loadMore=async()=>{
+    const loadMore = async () => {
         try {
             setLoading(true);
-            const {data}= await axios.get(`${process.env.REACT_APP_API}/api/v1/product/product-list/${page}`);
+            const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/product/product-list/${page}`);
             setLoading(false);
-            setProducts([...products,...data.products])
+            setProducts([...products, ...data.products])
         } catch (error) {
             setLoading(false);
             console.log(error);
         }
     }
 
-    useEffect(()=>{
-        if(page===1)return
+    useEffect(() => {
+        if (page === 1) return
         loadMore()
-         // eslint-disable-next-line
-    },[page])
+        // eslint-disable-next-line
+    }, [page])
 
     // get products filtered
     const filterProduct = async () => {
@@ -109,8 +113,8 @@ const HomePage = () => {
 
     return (
         <Layout title={"Home - Universitas Mercatus"}>
-            <div className="row mt-3">
-                <div className="col-md-2">
+            <div className="container-fluid row mt-3 home-page">
+                <div className="col-md-2 filters">
                     <h4 className="text-center">Filer By Category</h4>
                     <div className="d-flex flex-column mx-3">
                         {categories?.map(c => {
@@ -142,26 +146,54 @@ const HomePage = () => {
                     <div className="d-flex flex-wrap">
                         {products?.map(p => {
                             return (
-                                <div key={p._id} className="card m-3" style={{ width: '18rem' }}>
+                                <div key={p._id} className="card m-2" style={{ width: '18rem' }}>
                                     <img src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${p._id}`} className="card-img-top" alt={p.name} />
                                     <div className="card-body">
-                                        <h5 className="card-title">{p.name}</h5>
-                                        <p className="card-text">{p.description.substring(0, 30)}</p>
-                                        <p className="card-text">${p.price}</p>
-                                        <button className="btn btn-primary ms-1" onClick={()=>navigate(`product/${p.slug}`)}>View Product</button>
-                                        <button className="btn btn-secondary ms-1">Add to Cart</button>
+                                        <div className="card-name-price">
+                                            <h5 className="card-title">{p.name}</h5>
+                                            <h5 className="card-title card-price">
+                                                {p.price.toLocaleString("en-US", {
+                                                    style: "currency",
+                                                    currency: "USD",
+                                                })}
+                                            </h5>
+                                        </div>
+                                        <p className="card-text ">
+                                            {p.description.substring(0, 60)}...
+                                        </p>
+                                        <div className="card-name-price">
+                                            <button
+                                                className="btn btn-info ms-1"
+                                                onClick={() => navigate(`/product/${p.slug}`)}
+                                            >
+                                                More Details
+                                            </button>
+                                            <button
+                                                className="btn btn-dark ms-1"
+                                                onClick={() => {
+                                                    setCart([...cart, p]);
+                                                    localStorage.setItem(
+                                                        "cart",
+                                                        JSON.stringify([...cart, p])
+                                                    );
+                                                    toast.success("Item Added to cart");
+                                                }}
+                                            >
+                                                ADD TO CART
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             );
                         })}
                     </div>
                     <div className="m-3 p-3">
-                        {products && products.length<total && (
-                            <button className='btn btn-warning' onClick={(e)=>{
+                        {products && products.length < total && (
+                            <button className='btn btn-warning' onClick={(e) => {
                                 e.preventDefault();
-                                setPage(page+1);
+                                setPage(page + 1);
                             }}>
-                                {loading?"Loading...": "Load More"}
+                                {loading ? "Loading..." : "Load More"}
                             </button>
                         )}
                     </div>

@@ -5,9 +5,11 @@ import { useAuth } from '../../context/auth'
 import { toast } from 'react-toastify'
 import SearchInput from '../Form/SearchInput'
 import useCategory from '../../hooks/useCategory'
+import { useCart } from '../../context/cart'
 
 const Header = () => {
     const [auth, setAuth] = useAuth()
+    const [cart]=useCart();
     const categories = useCategory();
     const handleLogout = () => {
         setAuth({
@@ -16,16 +18,18 @@ const Header = () => {
             token: ''
         })
         localStorage.removeItem('auth')
+        localStorage.removeItem('cart');
         toast.success("Logged out Successfully");
     }
     return (
         <>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+            <nav className="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
                 <div className="container-fluid">
                     <Link to="/" className="navbar-brand">
                         <img src={NavbarImg} alt="Logo" width="30" height="30" className="d-inline-block align-text-top mx-2" />
                         Universitas Mercatus
                     </Link >
+                    <SearchInput />
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon" />
                     </button>
@@ -40,13 +44,13 @@ const Header = () => {
                                     Categories
                                 </Link>
                                 <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <Link to={`/categories`} className="dropdown-item">All Categories</Link >
-                                {categories?.map(c=>(
-                                    <Link key={c._id} to={`/category/${c.slug}`} className="dropdown-item">{c.name}</Link >
-                                ))}
+                                    <Link to={`/categories`} className="dropdown-item">All Categories</Link >
+                                    {categories?.map(c => (
+                                        <Link key={c._id} to={`/category/${c.slug}`} className="dropdown-item">{c.name}</Link >
+                                    ))}
                                 </div>
-                                
-                                    
+
+
                             </li>
 
 
@@ -69,20 +73,17 @@ const Header = () => {
                                             <NavLink onClick={handleLogout} to="/login" className="dropdown-item">Logout</NavLink >
                                         </div>
                                     </li>
-                                    <li className="nav-item">
-                                        <NavLink to="/cart" className="nav-link">
-                                            Cart
 
-                                        </NavLink >
-                                        {/* <span className="cart-badge translate-middle badge rounded-pill bg-danger">
-                                                0
-                                                <span className="visually-hidden">unread messages</span>
-                                            </span> */}
-                                    </li>
                                 </>)
                             }
-                            <SearchInput />
-
+                            <li className="nav-item">
+                                <Link type="button" to={'/cart'} className="nav-link position-relative">
+                                    Cart
+                                    <span className="position-absolute top-1 start-100 translate-middle badge rounded-pill bg-danger">
+                                        {cart?.length}
+                                    </span>
+                                </Link>
+                            </li>
                         </ul>
                     </div>
                 </div>

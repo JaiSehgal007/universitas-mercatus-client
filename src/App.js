@@ -23,6 +23,8 @@ import Search from "./pages/Search";
 import ProductDetails from "./pages/ProductDetails";
 import Categories from "./pages/Categories";
 import CategoryProducts from "./pages/CategoryProducts";
+import CartPage from "./pages/CartPage";
+import AdminOrders from "./pages/Admin/AdminOrders";
 
 
 
@@ -34,6 +36,7 @@ function App() {
         <Route path="/product/:slug" element={<ProductDetails />} />
         <Route path="/categories" element={<Categories/>} />
         <Route path="/category/:slug" element={<CategoryProducts/>} />
+        <Route path="/cart" element={<CartPage/>} />
         <Route path="/search" element={<Search />} />
         {/*  here this means that, we are creating nested routes inside Private route
         we can also create multiple routes in this, now here first the private route will be checked then the nested route will be executed*/}
@@ -50,6 +53,7 @@ function App() {
           <Route path="admin/product/:slug" element={<UpdateProduct/>} />
           <Route path="admin/products" element={<Products/>} />
           <Route path="admin/users" element={<Users/>} />
+          <Route path="admin/orders" element={<AdminOrders/>} />
         </Route>
 
         <Route path="/about" element={<About />} />
