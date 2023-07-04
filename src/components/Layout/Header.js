@@ -3,6 +3,7 @@ import { NavLink, Link } from 'react-router-dom'
 import NavbarImg from '../../assets/shopping-bag.png'
 import { useAuth } from '../../context/auth'
 import { toast } from 'react-toastify'
+import SearchInput from '../Form/SearchInput'
 
 const Header = () => {
     const [auth, setAuth] = useAuth()
@@ -28,6 +29,7 @@ const Header = () => {
                     </button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+                            
                             <li className="nav-item">
                                 <NavLink to="/" className="nav-link">Home</NavLink >
                             </li>
@@ -65,6 +67,7 @@ const Header = () => {
                                     </li>
                                 </>)
                             }
+                            <SearchInput/>
 
                         </ul>
                     </div>

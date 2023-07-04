@@ -70,6 +70,7 @@ const UpdateProduct = () => {
             if (answer.toUpperCase() === "NO") {
                 return;
             } else {
+                // eslint-disable-next-line
                 let { data } = await axios.delete(`${process.env.REACT_APP_API}/api/v1/product/delete-product/${id}`);
                 toast.success('product deleted successfully');
                 navigate('/dashboard/admin/products');

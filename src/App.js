@@ -19,6 +19,8 @@ import Orders from "./pages/user/Orders";
 import Profile from "./pages/user/Profile";
 import Products from "./pages/Admin/Products";
 import UpdateProduct from "./pages/Admin/UpdateProduct";
+import Search from "./pages/Search";
+import ProductDetails from "./pages/ProductDetails";
 
 
 function App() {
@@ -26,6 +28,8 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/product/:slug" element={<ProductDetails />} />
+        <Route path="/search" element={<Search />} />
         {/*  here this means that, we are creating nested routes inside Private route
         we can also create multiple routes in this, now here first the private route will be checked then the nested route will be executed*/}
         <Route path="/dashboard" element={<PrivateRoute />}>
