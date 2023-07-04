@@ -4,9 +4,11 @@ import NavbarImg from '../../assets/shopping-bag.png'
 import { useAuth } from '../../context/auth'
 import { toast } from 'react-toastify'
 import SearchInput from '../Form/SearchInput'
+import useCategory from '../../hooks/useCategory'
 
 const Header = () => {
     const [auth, setAuth] = useAuth()
+    const categories = useCategory();
     const handleLogout = () => {
         setAuth({
             ...setAuth,
@@ -29,13 +31,25 @@ const Header = () => {
                     </button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-                            
+
                             <li className="nav-item">
                                 <NavLink to="/" className="nav-link">Home</NavLink >
                             </li>
-                            <li className="nav-item">
-                                <NavLink to="/category" className="nav-link">Category</NavLink >
+                            <li className="nav-item dropdown">
+                                <Link className="nav-link dropdown-toggle" to={"/categories"} data-bs-toggle="dropdown">
+                                    Categories
+                                </Link>
+                                <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <Link to={`/categories`} className="dropdown-item">All Categories</Link >
+                                {categories?.map(c=>(
+                                    <Link key={c._id} to={`/category/${c.slug}`} className="dropdown-item">{c.name}</Link >
+                                ))}
+                                </div>
+                                
+                                    
                             </li>
+
+
                             {
                                 !auth.user ? (<>
                                     <li className="nav-item">
@@ -51,14 +65,14 @@ const Header = () => {
                                             {auth?.user?.name}
                                         </Link>
                                         <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                            <NavLink to={`/dashboard/${auth?.user?.role===1?'admin':'user'}`} className="dropdown-item">Dashboard</NavLink>
+                                            <NavLink to={`/dashboard/${auth?.user?.role === 1 ? 'admin' : 'user'}`} className="dropdown-item">Dashboard</NavLink>
                                             <NavLink onClick={handleLogout} to="/login" className="dropdown-item">Logout</NavLink >
                                         </div>
                                     </li>
                                     <li className="nav-item">
                                         <NavLink to="/cart" className="nav-link">
                                             Cart
-                                            
+
                                         </NavLink >
                                         {/* <span className="cart-badge translate-middle badge rounded-pill bg-danger">
                                                 0
@@ -67,7 +81,7 @@ const Header = () => {
                                     </li>
                                 </>)
                             }
-                            <SearchInput/>
+                            <SearchInput />
 
                         </ul>
                     </div>
